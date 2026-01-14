@@ -4,7 +4,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.image.PixelFormat;
-import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
 import java.util.Arrays;
@@ -126,8 +125,6 @@ public class FireEngine extends AnimationTimer {
     }
 
     private void updateStats(long now) {
-        double elapsedSec = (now - startTime) / 1_000_000_000.0;
-
         // Physics FPS = How fast the CPU is suffering
         // Render FPS = How fast the Screen/GPU is drawing
         double physFps = physicsFrames / 0.5; // Since we update every 0.5s approx

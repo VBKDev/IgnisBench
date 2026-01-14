@@ -19,10 +19,8 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.graphics' ]
 }
 
-mainClassName = 'org.example.benchmark.Main'
-
 application {
-    mainClass = 'org.example.benchmark.Main'
+    mainClass = 'org.example.Main'
 }
 
 dependencies {
@@ -31,6 +29,9 @@ dependencies {
     implementation "org.openjfx:javafx-graphics:21:win"
     implementation "org.openjfx:javafx-controls:21:win"
     implementation "org.openjfx:javafx-fxml:21:win"
+
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 }
 
 // 1. Build the Fat Jar
@@ -40,15 +41,20 @@ shadowJar {
     archiveVersion.set('1.0')
 
     manifest {
-        attributes 'Main-Class': 'org.example.benchmark.Main'
+        attributes 'Main-Class': 'org.example.Main'
     }
 
     mergeServiceFiles()
 }
 
+// Ensure shadowJar runs before dependent tasks
+tasks.distTar.dependsOn tasks.shadowJar
+tasks.distZip.dependsOn tasks.shadowJar
+tasks.startScripts.dependsOn tasks.shadowJar
+
 // 2. Build the EXE with Icon
 launch4j {
-    mainClassName = 'org.example.benchmark.Main'
+    mainClassName = 'org.example.Main'
     copyConfigurable = []
     jarTask = project.tasks.shadowJar
 

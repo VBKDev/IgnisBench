@@ -173,11 +173,13 @@ public class IgnisBench extends Application {
             InputStream iconStream = IgnisBench.class.getResourceAsStream("/Icon.png");
             if (iconStream != null) {
                 stage.getIcons().add(new Image(iconStream));
+                iconStream.close();
             } else {
-                System.out.println("Warning: Icon.png not found in resources");
+                System.err.println("Warning: Icon.png not found in resources, continuing without icon");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Warning: Failed to load application icon: " + e.getMessage());
+            // Continue without icon - not critical for functionality
         }
 
         stage.setScene(scene);
