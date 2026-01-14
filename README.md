@@ -1,6 +1,7 @@
 # IgnisBench
 
-I will upload source code later. I'm too lazy today.
+### Modify & Pull Requests
+> I'm open for updates from you. If you have a bug fix or feature that would be nice, just send a Pull Request.
 
 ### License & Pricing
 This app is **100% free**.
