@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    // Plugin to create the EXE
+    id 'edu.sc.seis.launch4j' version '3.0.5'
+}
+
+group 'org.example'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+javafx {
+    version = "21"
+    modules = [ 'javafx.controls', 'javafx.graphics' ]
+}
+
+mainClassName = 'org.example.benchmark.Main'
+
+application {
+    mainClass = 'org.example.benchmark.Main'
+}
+
+dependencies {
+    // Windows natives for JavaFX
+    implementation "org.openjfx:javafx-base:21:win"
+    implementation "org.openjfx:javafx-graphics:21:win"
+    implementation "org.openjfx:javafx-controls:21:win"
+    implementation "org.openjfx:javafx-fxml:21:win"
+}
+
+// 1. Build the Fat Jar
+shadowJar {
+    archiveBaseName.set('IgnisBench')
+    archiveClassifier.set('')
+    archiveVersion.set('1.0')
+
+    manifest {
+        attributes 'Main-Class': 'org.example.benchmark.Main'
+    }
+
+    mergeServiceFiles()
+}
+
+// 2. Build the EXE with Icon
+launch4j {
+    mainClassName = 'org.example.benchmark.Main'
+    copyConfigurable = []
+    jarTask = project.tasks.shadowJar
+
+    // The output filename
+    outfile = 'IgnisBench.exe'
+
+    // Points to src/main/resources/Icon.ico
+    icon = "${projectDir}/src/main/resources/Icon.ico"
+
+    // 'gui' means no black console window
+    headerType = 'gui'
+
+    // Requires Java 17 or higher
+    jreMinVersion = '17'
+}
+
+test {
+    useJUnitPlatform()
+}
